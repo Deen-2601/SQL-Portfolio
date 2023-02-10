@@ -57,7 +57,7 @@ order by 1,2
 --Looking at total population vs vaccination
 
 Select dea.continent, dea.location, dea.date, dea.population, vac.new_vaccinations
-, SUM(Cast(vac.new_vaccinations as int)) OVER (Partition by dea.location Order by dea.location, 
+, SUM(Cast(vac.new_vaccinations as bigint)) OVER (Partition by dea.location Order by dea.location, 
 dea.date) as RollingPeopleVaccinated
 FROM PORTFOLIO..CovidDeaths dea
 Join PORTFOLIO..CovidVaccinations vac
@@ -81,7 +81,7 @@ Rolling_People_Vaccinated numeric
 
 Insert into #PercentPopulationVaccinated
 Select dea.continent, dea.location, dea.date, dea.population, vac.new_vaccinations
-, SUM(Cast(vac.new_vaccinations as int)) OVER (Partition by dea.location Order by dea.location, 
+, SUM(Cast(vac.new_vaccinations as bigint)) OVER (Partition by dea.location Order by dea.location, 
 dea.date) as Rolling_People_Vaccinated
 FROM PORTFOLIO..CovidDeaths dea
 Join PORTFOLIO..CovidVaccinations vac
@@ -95,9 +95,9 @@ From #PercentPopulationVaccinated
 
 --creating view to store data for visualization
 
-Create View Percent_PopulationVaccinated as
+Create View Percent_Population_Vaccinated as
 Select dea.continent, dea.location, dea.date, dea.population, vac.new_vaccinations
-, SUM(Cast(vac.new_vaccinations as int)) OVER (Partition by dea.location Order by dea.location, 
+, SUM(Cast(vac.new_vaccinations as bigint)) OVER (Partition by dea.location Order by dea.location, 
 dea.date) as Rolling_People_Vaccinated
 FROM PORTFOLIO..CovidDeaths dea
 Join PORTFOLIO..CovidVaccinations vac
